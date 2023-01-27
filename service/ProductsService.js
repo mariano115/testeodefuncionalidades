@@ -16,57 +16,37 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  try {
-    return productDTO(await connectionDbb.getProductById(id));
-  } catch (error) {
-    logger.warn("error in get product method getProductById");
-    return { error: "error in get product" };
-  }
+  return productDTO(await connectionDbb.getProductById(id));
 };
 
 const addProduct = async (product) => {
-  try {
-    if (
-      product.description !== undefined &&
-      product.description.trim() !== "" &&
-      product.description !== null &&
-      product.price !== undefined &&
-      product.price !== "" &&
-      product.price !== null &&
-      product.category !== undefined &&
-      product.category.trim() !== "" &&
-      product.category !== null &&
-      product.photo !== undefined &&
-      product.photo.trim() !== "" &&
-      product.photo !== null
-    ) {
-      await connectionDbb.addProduct(product);
-    } else {
-      logger.warn("error in creating product method addProduct");
-      return { error: "error in creating product" };
-    }
-  } catch (error) {
+  if (
+    product.description !== undefined &&
+    product.description.trim() !== "" &&
+    product.description !== null &&
+    product.price !== undefined &&
+    product.price !== "" &&
+    product.price !== null &&
+    product.category !== undefined &&
+    product.category.trim() !== "" &&
+    product.category !== null &&
+    product.photo !== undefined &&
+    product.photo.trim() !== "" &&
+    product.photo !== null
+  ) {
+    return await connectionDbb.addProduct(product);
+  } else {
     logger.warn("error in creating product method addProduct");
     return { error: "error in creating product" };
   }
 };
 
 const deleteProductById = async (id) => {
-  try {
-    return await connectionDbb.deleteProductById(id);
-  } catch (error) {
-    logger.warn("error in deleting product method deleteProductById");
-    return { error: "error in deleting product" };
-  }
+  return await connectionDbb.deleteProductById(id);
 };
 
 const updateProductById = async (id, product) => {
-  try {
-    return connectionDbb.updateProductById(id, product);
-  } catch (error) {
-    logger.warn("error in modify product method updateProductById");
-    return { error: "error in modify product" };
-  }
+  return await connectionDbb.updateProductById(id, product);
 };
 
 module.exports = {

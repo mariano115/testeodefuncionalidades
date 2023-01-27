@@ -39,7 +39,7 @@ describe("test api productos", async () => {
     });
   });
 
-  describe.skip("GET Productos by id", async () => {
+  describe("GET Productos by id", async () => {
     it("get productos by id debe devolver un texto avisando de que se tiene que loguear", async () => {
       let response = await request.get(`/productos/123456`);
       expect(response.status).to.eql(200);
@@ -56,7 +56,7 @@ describe("test api productos", async () => {
     });
   });
 
-  describe.skip("POST addProduct", async () => {
+  describe("POST addProduct", async () => {
     it("add productos debe devolver un texto avisando de que se tiene que loguear", async () => {
       let response = await request.post(`/productos`).send(newProduct);
       expect(response.status).to.eql(200);
@@ -67,7 +67,7 @@ describe("test api productos", async () => {
         .post("/productos?admin=true")
         .send(newProduct)
         .set("Cookie", [`connect.sid=${JWT}`]);
-      expect(responsePostProductos.body.error != -1);
+        expect(responsePostProductos.body.error).to.not.equal('error in creating product')
     });
   });
 
@@ -85,16 +85,15 @@ describe("test api productos", async () => {
         .set("Cookie", [`connect.sid=${JWT}`]);
       const producto =
         responseGetProductos.body[responseGetProductos.body.length - 1];
-      let responsePostProductos = await request
-        .put(`/productos/${producto.id}2?admin=true`)
+      let responsePutProductos = await request
+        .put(`/productos/${producto.id}?admin=true`)
         .send({ category: "category modificacion2" })
         .set("Cookie", [`connect.sid=${JWT}`]);
-        console.log(responseDeleteProductos.body)
-      expect(responsePostProductos.body.error != -1);
+      expect(responsePutProductos.body.error).to.not.equal('error in modify product')
     });
   });
 
-  describe.skip("DELETE updateProductById", async () => {
+  describe("DELETE updateProductById", async () => {
     it("updateProductById debe devolver un texto avisando de que se tiene que loguear", async () => {
         let response = await request
         .delete(`/productos/123456?admin=true`);
@@ -108,11 +107,9 @@ describe("test api productos", async () => {
       const producto =
         responseGetProductos.body[responseGetProductos.body.length - 1];
       let responseDeleteProductos = await request
-        .delete(`/productos/${producto.id}1?admin=true`)
+        .delete(`/productos/${producto.id}?admin=true`)
         .set("Cookie", [`connect.sid=${JWT}`]);
-        console.log(responseDeleteProductos.body)
-        console.log(responseDeleteProductos.body.error)
-      expect(responseDeleteProductos.body.error != "error in deleting product");
+        expect(responseDeleteProductos.body.error).to.not.equal("error in deleting product")
     });
   });
 });
