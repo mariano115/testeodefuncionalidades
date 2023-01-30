@@ -6,19 +6,11 @@ const connectionDbb = new MyConnectionFactory().returnDbConnection();
 const logger = loggerDeclaration();
 
 const getCarts = async () => {
-  try {
-    return await connectionDbb.getCarts();
-  } catch (error) {
-    return { error: "cart not found" };
-  }
+  return await connectionDbb.getCarts();
 };
 
 const getCartById = async (id) => {
-  try {
-    return cartDTO(await connectionDbb.getCartById(id));
-  } catch (error) {
-    return { error: "cart not found" };
-  }
+  return cartDTO(await connectionDbb.getCartById(id));
 };
 
 const generatePurchaseSummary = async (cart) => {
@@ -43,18 +35,7 @@ const generatePurchaseSummary = async (cart) => {
 const addProductToCart = async (idProduct, idCart, cantidad) => {
   try {
     const productToAdd = await ProductService.getProductById(idProduct);
-    const cart = await connectionDbb.addProductToCart(
-      idCart,
-      productToAdd,
-      cantidad
-    );
-    if (cart.modifiedCount > 0) {
-      logger.info("se pudo agregar el producto al carrito");
-      return "El producto fue agregado correctamente";
-    } else {
-      logger.info("No se pudo agregar el producto al carrito");
-      return "No se pudo agregar el producto al carrito";
-    }
+    return await connectionDbb.addProductToCart(idCart, productToAdd, cantidad);
   } catch (error) {
     logger.warn("Hubo un problema al agregar el producto al carrito");
     return error;
@@ -66,7 +47,7 @@ const deleteCartById = async (id) => {
 };
 
 const createEmptyCart = async (email, address) => {
-  return connectionDbb.createEmptyCart(email, address);
+  return await connectionDbb.createEmptyCart(email, address);
 };
 
 module.exports = {
@@ -77,10 +58,3 @@ module.exports = {
   getCarts,
   deleteCartById,
 };
-
-/* const cart = await cartModel.updateOne(
-      { _id: idCart },
-      {
-        $push: { items: { product: productToAdd, quantity: cantidad } },
-      }
-    ); */

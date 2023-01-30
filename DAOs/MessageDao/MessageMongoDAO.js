@@ -14,19 +14,7 @@ module.exports = class MessageMongoDAO {
   async addMessage(message) {
     return await messagesModel.create(message);
   }
-/* 
-  async deleteProductById(id) {
-    return await messagesModel.deleteOne({ _id: id });
-  }
 
-  async updateProductById(id, product) {
-    return await messagesModel.findByIdAndUpdate(
-      { _id: id },
-      { ...product },
-      { returnOriginal: false }
-    );
-  }
- */
   static returnSingleton() {
     if (!this.instance) {
       this.instance = new MessageMongoDAO();

@@ -23,7 +23,7 @@
   "homepage": "https://github.com/mariano115/motoresDePlantillas#readme",
   "dependencies": {
     "autocannon": "^7.10.0",
-    "axios": "^1.2.2",
+    "axios": "^1.2.6",
     "bcrypt": "^5.1.0",
     "chai": "^4.3.7",
     "compression": "^1.7.4",
